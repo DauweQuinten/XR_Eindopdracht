@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 766679706}
   - component: {fileID: 766679705}
   - component: {fileID: 766679709}
+  - component: {fileID: 9145611226999820829}
   m_Layer: 0
   m_Name: Stick
   m_TagString: Untagged
@@ -233,6 +234,19 @@ MonoBehaviour:
   agent: {fileID: 0}
   target: {fileID: 0}
   pointOfAttachment: {fileID: 0}
+--- !u!65 &9145611226999820829
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1191582177565325015}
+  m_Material: {fileID: 13400000, guid: d9a835bade796cb4db8b0a01905b0809, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.63671064, y: 0.15924403, z: 0.35299864}
+  m_Center: {x: 0.012109652, y: 0.07438783, z: -0.032869074}
 --- !u!1 &4701261734488710951
 GameObject:
   m_ObjectHideFlags: 0

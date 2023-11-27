@@ -5,7 +5,7 @@ using UnityEngine;
 public class PurrBox : MonoBehaviour
 {
     Vector3 PrevHandPosition = Vector3.zero;
-    float minimalPurrDistance = 0.01f;
+    float minimalPurrDistance = 0.06f;
     [SerializeField]AudioSource purrAudio;
     bool isPetting = false;
     bool isPurring = false;
@@ -43,14 +43,6 @@ public class PurrBox : MonoBehaviour
 
     }
 
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Controller"))
-        {
-            Debug.Log("Hand entered the trigger");
-        }
-    }
 
     private void OnTriggerStay(Collider other)
     {
