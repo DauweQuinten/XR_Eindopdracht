@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PurrBox : MonoBehaviour
 {
@@ -10,11 +11,13 @@ public class PurrBox : MonoBehaviour
     bool isPetting = false;
     bool isPurring = false;
     float timeSinceLastPed = 0f;
+    float stopPurringDelay = 2f;
+    public UnityEvent onPurrStarted;
 
     private void Update()
     {
         if (isPetting)
-        {
+        {           
             isPurring = true;
             timeSinceLastPed = 0;         
         }
@@ -22,7 +25,7 @@ public class PurrBox : MonoBehaviour
         {
             // If not petting for 2s -> Stop purring
             timeSinceLastPed += Time.deltaTime;
-            if(timeSinceLastPed > 2f)
+            if(timeSinceLastPed > stopPurringDelay)
             {
                 isPurring = false;
             }
@@ -34,6 +37,7 @@ public class PurrBox : MonoBehaviour
             if (!purrAudio.isPlaying)
             {
                 purrAudio.Play();
+                onPurrStarted.Invoke();
             }         
         }
         else
