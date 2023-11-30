@@ -1,19 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.XR.CoreUtils;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
+    public UnityEvent onTutorialAnyStepCompleted;
+    public UnityEvent onTutorialPart1Completed;
+    public UnityEvent onTutorialPart2Completed;
+    public UnityEvent onTutorialPart3Completed;
+    public UnityEvent onTutorialPart4Completed;
+    public UnityEvent onTutorialPart5Completed;
+    public UnityEvent onTutorialCompleted;
+    
     [SerializeField] private GameObject xrOrigin;
     [SerializeField] private GameObject pet;
     [SerializeField] private GameObject tableTarget;
     [SerializeField] private GameObject teleportationTarget;
     [SerializeField] private Outline letterOutline;
+    [SerializeField] private HighlightControllerParts leftController;
+    [SerializeField] private HighlightControllerParts rightController;
+    [SerializeField] private AudioSource source;
 
     private MoveToTarget petMover = null;
     private float defaultMoverOffset = 0;
 
     private int currentStepIndex = 1;
+    private int prevStepIndex = 1;
     private bool tutorialCompleted = false;
 
 
@@ -21,9 +35,17 @@ public class GameManager : MonoBehaviour
     {
         if (!pet.TryGetComponent<MoveToTarget>(out petMover))
         {
-            Debug.LogError("pet has no MoveToTarget component");
+            Debug.LogError("pet has no MoveToTarget component");            
         }
-        defaultMoverOffset = petMover.GetOffset();
+        if(!TryGetComponent<AudioSource>(out source))
+        {
+            Debug.LogError("GameManager has no AudioSource component");
+        }
+
+        if (petMover)
+        {
+            defaultMoverOffset = petMover.GetOffset();
+        }
     }
 
     private void Update()
@@ -47,24 +69,62 @@ public class GameManager : MonoBehaviour
             {
                 case 1:
                     // Step1: Move to the letter
-                    tableTarget.SetActive(true);   
+                    tableTarget.SetActive(true);
+                    leftController.Highlight(HighlightControllerParts.ControllerPart.ThumbStick);
                     break;
                 case 2:
                     // Step2: Read the letter
                     tableTarget.SetActive(false);
                     letterOutline.enabled = true;
+                    leftController.ResetHighLight(HighlightControllerParts.ControllerPart.ThumbStick);
+                    leftController.Highlight(HighlightControllerParts.ControllerPart.Bumper);
+                    rightController.Highlight(HighlightControllerParts.ControllerPart.Bumper);
                     break;
                 case 3:
                     // Step3: Move to the teleportation target
                     letterOutline.enabled = false;
                     teleportationTarget.SetActive(true);
+                    leftController.ResetHighLight(HighlightControllerParts.ControllerPart.Bumper);
+                    rightController.ResetHighLight(HighlightControllerParts.ControllerPart.Bumper);
+                    rightController.Highlight(HighlightControllerParts.ControllerPart.ThumbStick);
                     break;
                 case 4:             
                     // Step4: Pet Anky
+                    StartCoroutine(StartFollowingPlayerWithDelay());
                     teleportationTarget.SetActive(false);
+                    rightController.ResetHighLight(HighlightControllerParts.ControllerPart.ThumbStick);
                     break;
-
+                case 5:
+                    // tutorial completed
+                    tutorialCompleted = true;
+                    break;
             }
+        }
+
+        if(currentStepIndex != prevStepIndex)
+        {
+            // A step has completed
+            onTutorialAnyStepCompleted.Invoke();   
+
+            switch (prevStepIndex)
+            {                                        
+                case 1:
+                    onTutorialPart1Completed.Invoke();
+                    break;
+                case 2:
+                    onTutorialPart2Completed.Invoke();
+                    break;
+                case 3:
+                    onTutorialPart3Completed.Invoke();
+                    break;
+                case 4:
+                    onTutorialPart4Completed.Invoke();
+                    break;
+                case 5:
+                    onTutorialPart5Completed.Invoke();
+                    break;
+            }
+            prevStepIndex = currentStepIndex;
         }
         
     }
