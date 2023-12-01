@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class FoodEater : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class FoodEater : MonoBehaviour
     float timeSinceFoodEntered = 0f;
     [SerializeField]float eatDelay = 2f;
     [SerializeField] AudioSource EatSound;
+    [SerializeField] UnityEvent onFoodEaten;
 
 
 
@@ -39,8 +41,9 @@ public class FoodEater : MonoBehaviour
     }
 
     private void Eat(GameObject food)
-    {
+    {      
         EatSound.Play();
         Destroy(food);
+        onFoodEaten.Invoke();
     }
 }

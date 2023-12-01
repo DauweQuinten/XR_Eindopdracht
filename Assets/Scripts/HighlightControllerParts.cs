@@ -10,6 +10,7 @@ public class HighlightControllerParts : MonoBehaviour
     [SerializeField]private Material highlightMaterial = null;
     private Dictionary<ControllerPart, Material> defaultMaterialOfParts = new Dictionary<ControllerPart, Material>();
     private Dictionary<ControllerPart, string> nameOfParts = new Dictionary<ControllerPart, string>();
+    private bool controllerMappingCompleted = false;
 
     public enum ControllerPart
     {
@@ -27,11 +28,7 @@ public class HighlightControllerParts : MonoBehaviour
 
 
     private void Awake()
-    {
-        Debug.Log(GetControllerPartString(ControllerPart.ThumbStickBase));
-        Debug.Log(GetControllerPartString(ControllerPart.TouchPad));
-        
-        
+    {            
         foreach (ControllerPart part in System.Enum.GetValues(typeof(ControllerPart)))
         {
             try
@@ -47,7 +44,9 @@ public class HighlightControllerParts : MonoBehaviour
             }           
         }
         Debug.Log("Material mapping done");
+        controllerMappingCompleted = true;
     }
+
 
 
     private string GetControllerPartString(ControllerPart part)
@@ -61,7 +60,7 @@ public class HighlightControllerParts : MonoBehaviour
             case ControllerPart.ControllerBase:
                 return "Controller_Base";
             case ControllerPart.TouchPad:
-                return "Touchpad";
+                return "TouchPad";
             case ControllerPart.Trigger:
                 return "Trigger";
             case ControllerPart.ButtonA:
@@ -91,5 +90,10 @@ public class HighlightControllerParts : MonoBehaviour
         if (PartObject == null) return;
         PartObject.GetComponent<MeshRenderer>().material = defaultMaterialOfParts[part];
         Debug.Log($"reset highlight: {part} of {gameObject.name}");
+    }
+
+    public bool ControllerMappingCompleted()
+    {
+        return controllerMappingCompleted;
     }
 }

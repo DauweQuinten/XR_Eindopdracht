@@ -12,7 +12,11 @@ public class PurrBox : MonoBehaviour
     bool isPurring = false;
     float timeSinceLastPed = 0f;
     float stopPurringDelay = 2f;
+    float timeSincePurringStarted = 0f;
+    float purrIntervalDuration = 1f;
+
     public UnityEvent onPurrStarted;
+    public UnityEvent onPurrInterval;
 
     private void Update()
     {
@@ -34,11 +38,19 @@ public class PurrBox : MonoBehaviour
         
         if (isPurring)
         {
+            timeSincePurringStarted += Time.deltaTime;
+            
+            if(timeSincePurringStarted > purrIntervalDuration)
+            {
+                onPurrInterval.Invoke();
+                timeSincePurringStarted = 0;
+            }
+
             if (!purrAudio.isPlaying)
             {
                 purrAudio.Play();
                 onPurrStarted.Invoke();
-            }         
+            }             
         }
         else
         {

@@ -7,6 +7,7 @@ public class FruitTree : MonoBehaviour
 {
     FruitSpawnPoint[] fruitSpawnPoints;
     [SerializeField] GameObject fruitPrefab;
+    [SerializeField] GameObject positionIndicator;
 
 
     private void Awake()
@@ -29,5 +30,10 @@ public class FruitTree : MonoBehaviour
                 spawnpoint.SpawnFruit(fruitPrefab);
             }
         }
+    }
+
+    public void TogglePositionIndicator(bool state)
+    {
+        positionIndicator.SetActive(state);
     }
 }

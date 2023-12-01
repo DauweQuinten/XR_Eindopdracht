@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.XR.CoreUtils;
+using UnityEditor.XR;
 using UnityEngine;
+using UnityEngine.Events;
 
 
 [RequireComponent(typeof(Rigidbody))]
@@ -12,6 +14,8 @@ public class FetchableItem : MonoBehaviour
     [SerializeField] GameObject target = null;
     [SerializeField] Grabber pointOfAttachment = null;
 
+    [SerializeField] UnityEvent onItemReturned;
+
     private MoveToTarget mover = null;
     private float initialMoverOffset = 0f;
 
@@ -21,6 +25,7 @@ public class FetchableItem : MonoBehaviour
     private bool isFetching = false;
     private bool isReturning = false;
     private bool isCoolingDown = true;
+    private bool isDetaching = false;
 
 
     private void Awake()
@@ -51,7 +56,12 @@ public class FetchableItem : MonoBehaviour
             if (ItemIsReturnedByAgent())
             {
                 mover.StopWalking();
-                StartCoroutine(DetachMe());           
+
+                if (!isDetaching)
+                {
+                    StartCoroutine(DetachMe());
+                    isDetaching = true;
+                }
             }
         }
 
@@ -98,6 +108,8 @@ public class FetchableItem : MonoBehaviour
         isReturning = false;
         isCoolingDown = true;
         mover.SetTarget(null);
+        onItemReturned.Invoke();
+        isDetaching = false;
     }   
 
     IEnumerator FetchCoolDown()
