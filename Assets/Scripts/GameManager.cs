@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using Unity.XR.CoreUtils;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -49,15 +50,20 @@ public class GameManager : MonoBehaviour
     private float maxFullness = 100;
     private float maxAmusement = 100;
     private float maxHappiness = 100;
-    private float fullnessAmount = 50;
-    private float amusementAmount = 50;
-    private float happinessAmount = 50;
+
+    private float fullnessAmount = 70;
+    private float amusementAmount = 40;
+    private float happinessAmount = 30;
     private float hungerBoundary = 20;
-    private float amusementBoundary = 20;
-    private float happinessBoundary = 20;
-    private float fullnessDecreaseSpeed = 1;
-    private float amusementDecreaseSpeed = 4;
-    private float happinessDecreaseSpeed = 2;
+    private float boredBoundary = 20;
+    private float sadBoundary = 20;
+    private float moodHysteresis = 30;
+    private float fullnessDecreaseAmount = 1;
+    private float amusementDecreaseAmount = 1;
+    private float happinessDecreaseAmount = 1;
+
+    private float statsDecreaseInterval = 1f;
+
 
     #endregion
 
@@ -77,7 +83,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating("DecreaseParameters", 0f, 1f);
+        InvokeRepeating("DecreaseParameters", 0f, statsDecreaseInterval);
     }
 
     private void Update()
@@ -141,7 +147,7 @@ public class GameManager : MonoBehaviour
                 teleportationTarget.SetActive(false);
                 rightController.ResetHighLight(HighlightControllerParts.ControllerPart.ThumbStick);
                 petOutline.enabled = true;
-                moodPanel.SetMood(MoodPanel.Mood.PetMe);
+                moodPanel.SetMood(MoodPanel.Mood.Sad);
                 break;
             case 5:
                 // Teap5: Pluck fruit & feed Anky
@@ -207,21 +213,51 @@ public class GameManager : MonoBehaviour
 
     void CheckParameters()
     {
-        if (fullnessAmount < hungerBoundary)
-        {
-            moodPanel.SetMood(MoodPanel.Mood.Hungry);
-        }
-        else if(happinessAmount < happinessBoundary)
-        {
-            moodPanel.SetMood(MoodPanel.Mood.PetMe);
-        }
-        else if(amusementAmount < amusementBoundary)
-        {
-            moodPanel.SetMood(MoodPanel.Mood.bored);
+        MoodPanel.Mood currentMood = moodPanel.GetMood();
+
+        if(currentMood == MoodPanel.Mood.neutral)
+        {         
+            if (fullnessAmount < hungerBoundary)
+            {
+                currentMood = MoodPanel.Mood.Hungry;
+            }
+            else if(happinessAmount < sadBoundary)
+            {
+                currentMood = MoodPanel.Mood.Sad;
+            }
+            else if(amusementAmount < boredBoundary)
+            {
+                currentMood = MoodPanel.Mood.bored;
+            }
         }
         else
         {
-            moodPanel.SetMood(MoodPanel.Mood.neutral);
+            switch (currentMood)
+            {
+                case MoodPanel.Mood.Sad:
+                    if (happinessAmount > sadBoundary + moodHysteresis)
+                    {
+                        currentMood = MoodPanel.Mood.neutral;
+                    }
+                    break;
+                case MoodPanel.Mood.bored:
+                    if(amusementAmount > boredBoundary + moodHysteresis)
+                    {
+                        currentMood = MoodPanel.Mood.neutral;
+                    }
+                    break;
+                case MoodPanel.Mood.Hungry:
+                    if(fullnessAmount > hungerBoundary + moodHysteresis)
+                    {
+                        currentMood = MoodPanel.Mood.neutral;
+                    }
+                    break;                          
+            }
+        }
+        
+        if(currentMood != moodPanel.GetMood())
+        {
+            moodPanel.SetMood(currentMood);
         }
     }
 
@@ -245,9 +281,9 @@ public class GameManager : MonoBehaviour
     {
         if (tutorialCompleted)
         {
-            fullnessAmount -= fullnessDecreaseSpeed;
-            happinessAmount -= happinessDecreaseSpeed;
-            amusementAmount -= amusementDecreaseSpeed;
+            fullnessAmount -= fullnessDecreaseAmount;
+            happinessAmount -= happinessDecreaseAmount;
+            amusementAmount -= amusementDecreaseAmount;
             fullnessAmount = Mathf.Clamp(fullnessAmount, 0f, maxFullness);
             happinessAmount = Mathf.Clamp(happinessAmount, 0f, maxHappiness);
             amusementAmount = Mathf.Clamp(amusementAmount, 0f, maxAmusement);

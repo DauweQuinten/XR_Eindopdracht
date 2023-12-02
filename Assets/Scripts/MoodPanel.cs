@@ -18,7 +18,7 @@ public class MoodPanel : MonoBehaviour
     public enum Mood
     {
         Hungry,
-        PetMe,
+        Sad,
         bored,
         neutral
     }
@@ -27,7 +27,7 @@ public class MoodPanel : MonoBehaviour
     private void Awake()
     {
         SpriteMap.Add(Mood.Hungry, HungryIcon);
-        SpriteMap.Add(Mood.PetMe, PetMeIcon);
+        SpriteMap.Add(Mood.Sad, PetMeIcon);
         SpriteMap.Add(Mood.bored, boredIcon);
         SpriteMap.Add(Mood.neutral, null);
     }
@@ -43,6 +43,11 @@ public class MoodPanel : MonoBehaviour
     public void SetMood(Mood mood)
     {
         currentMood = mood;
+    }
+
+    public Mood GetMood()
+    {
+        return currentMood;
     }
 
     void LookAtOrigin()

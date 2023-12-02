@@ -7,7 +7,7 @@ public class FoodEater : MonoBehaviour
 {
     EdibleItem foodInRange = null;
     float timeSinceFoodEntered = 0f;
-    [SerializeField]float eatDelay = 2f;
+    [SerializeField]float eatDelay = 1f;
     [SerializeField] AudioSource EatSound;
     [SerializeField] UnityEvent onFoodEaten;
 
