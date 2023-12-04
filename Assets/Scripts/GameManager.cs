@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private HighlightControllerParts rightController;
     [SerializeField] private FruitTree[] trees = new FruitTree[0];
     [SerializeField] private MoodPanel moodPanel;
+    [SerializeField] private HandUIController leftControllerUI;
+    [SerializeField] private HandUIController rightControllerUI;
 
     #endregion
 
@@ -79,6 +81,9 @@ public class GameManager : MonoBehaviour
         {
             defaultMoverOffset = petMover.GetOffset();
         }
+
+        leftControllerUI.SetInformation("");
+        rightControllerUI.SetInformation("");
     }
 
     private void Start()
@@ -124,6 +129,7 @@ public class GameManager : MonoBehaviour
                 // Step1: Move to the letter
                 tableTarget.SetActive(true);
                 leftController.Highlight(HighlightControllerParts.ControllerPart.ThumbStick);
+                leftControllerUI.SetInformation("Gebruik de linker thumbstick om te bewegen");             
                 break;
             case 2:
                 // Step2: Read the letter
@@ -132,6 +138,7 @@ public class GameManager : MonoBehaviour
                 leftController.ResetHighLight(HighlightControllerParts.ControllerPart.ThumbStick);
                 leftController.Highlight(HighlightControllerParts.ControllerPart.Bumper);
                 rightController.Highlight(HighlightControllerParts.ControllerPart.Bumper);
+                leftControllerUI.SetInformation("Gebruik grab om de brief op te pakken");
                 break;
             case 3:
                 // Step3: Move to the teleportation target
@@ -140,6 +147,8 @@ public class GameManager : MonoBehaviour
                 leftController.ResetHighLight(HighlightControllerParts.ControllerPart.Bumper);
                 rightController.ResetHighLight(HighlightControllerParts.ControllerPart.Bumper);
                 rightController.Highlight(HighlightControllerParts.ControllerPart.ThumbStick);
+                rightControllerUI.SetInformation("Gebruik de rechter thumbstick om te teleporteren");
+                leftControllerUI.SetInformation("");
                 break;
             case 4:
                 // Step4: Pet Anky
@@ -148,6 +157,8 @@ public class GameManager : MonoBehaviour
                 rightController.ResetHighLight(HighlightControllerParts.ControllerPart.ThumbStick);
                 petOutline.enabled = true;
                 moodPanel.SetMood(MoodPanel.Mood.Sad);
+                //leftControllerUI.SetInformation("Je kan anky aaien door over zijn kop te wrijven");
+                //rightControllerUI.SetInformation("");
                 break;
             case 5:
                 // Teap5: Pluck fruit & feed Anky
@@ -157,6 +168,7 @@ public class GameManager : MonoBehaviour
                 {
                     tree.TogglePositionIndicator(true);
                 }
+                //leftControllerUI.SetInformation("Anky heeft honger. Geef hem iets te eten");
                 break;
             case 6:
                 // Play with branche
