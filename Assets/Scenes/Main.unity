@@ -108,7 +108,7 @@ NavMeshSettings:
     agentTypeID: 0
     agentRadius: 0.5
     agentHeight: 2
-    agentSlope: 25
+    agentSlope: 24.6
     agentClimb: 0.3
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
@@ -3546,10 +3546,19 @@ MonoBehaviour:
       m_Calls: []
   onTutorialPart6Completed:
     m_PersistentCalls:
-      m_Calls: []
-  onTutorialPart7Completed:
-    m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1546612951}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: PlayOneShot
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: cdd972f93e321c341a9a917d5428baad, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onTutorialCompleted:
     m_PersistentCalls:
       m_Calls: []
@@ -6229,6 +6238,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1360079039, guid: b916f23d57e1c0b4d9441268edc66034, type: 3}
+      propertyPath: agent
+      value: 
+      objectReference: {fileID: 919132148704788097}
+    - target: {fileID: 1360079039, guid: b916f23d57e1c0b4d9441268edc66034, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 221960299}
+    - target: {fileID: 1360079039, guid: b916f23d57e1c0b4d9441268edc66034, type: 3}
+      propertyPath: pointOfAttachment
+      value: 
+      objectReference: {fileID: 1741711409}
+    - target: {fileID: 1360079039, guid: b916f23d57e1c0b4d9441268edc66034, type: 3}
+      propertyPath: onItemReturned.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1546612950}
+    - target: {fileID: 520221921361083053, guid: b916f23d57e1c0b4d9441268edc66034, type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 687827274948994417, guid: b916f23d57e1c0b4d9441268edc66034, type: 3}
     - target: {fileID: 576720481349681555, guid: b916f23d57e1c0b4d9441268edc66034, type: 3}
       propertyPath: m_Name
       value: BasketGame
@@ -6645,6 +6674,10 @@ PrefabInstance:
     - target: {fileID: 881723261662845783, guid: 4d0bfd5b2cd2b0449bc5181f240dd640, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132148704788098, guid: 4d0bfd5b2cd2b0449bc5181f240dd640, type: 3}
+      propertyPath: m_Speed
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2609485942374286046, guid: 4d0bfd5b2cd2b0449bc5181f240dd640, type: 3}
       propertyPath: xrRig

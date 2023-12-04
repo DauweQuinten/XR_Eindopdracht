@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour
     public UnityEvent onTutorialPart4Completed;
     public UnityEvent onTutorialPart5Completed;
     public UnityEvent onTutorialPart6Completed;
-    public UnityEvent onTutorialPart7Completed;
     public UnityEvent onTutorialCompleted;
 
     #endregion
@@ -157,8 +156,7 @@ public class GameManager : MonoBehaviour
                 rightController.ResetHighLight(HighlightControllerParts.ControllerPart.ThumbStick);
                 petOutline.enabled = true;
                 moodPanel.SetMood(MoodPanel.Mood.Sad);
-                //leftControllerUI.SetInformation("Je kan anky aaien door over zijn kop te wrijven");
-                //rightControllerUI.SetInformation("");
+                rightControllerUI.SetInformation("");
                 break;
             case 5:
                 // Teap5: Pluck fruit & feed Anky
@@ -168,7 +166,6 @@ public class GameManager : MonoBehaviour
                 {
                     tree.TogglePositionIndicator(true);
                 }
-                //leftControllerUI.SetInformation("Anky heeft honger. Geef hem iets te eten");
                 break;
             case 6:
                 // Play with branche
@@ -216,7 +213,8 @@ public class GameManager : MonoBehaviour
                     onTutorialPart6Completed.Invoke();
                     break;
                 case 7:
-                    onTutorialPart7Completed.Invoke();
+                    Debug.Log("Tutorial completed");
+                    onTutorialCompleted.Invoke();                 
                     break;
             }
             prevStepIndex = currentStepIndex;
