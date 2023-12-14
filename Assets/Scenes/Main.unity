@@ -6255,6 +6255,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1546612950}
     - target: {fileID: 520221921361083053, guid: b916f23d57e1c0b4d9441268edc66034, type: 3}
+      propertyPath: m_ThrowVelocityScale
+      value: 2.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 520221921361083053, guid: b916f23d57e1c0b4d9441268edc66034, type: 3}
       propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 687827274948994417, guid: b916f23d57e1c0b4d9441268edc66034, type: 3}
