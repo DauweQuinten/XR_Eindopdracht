@@ -9,7 +9,6 @@ public class HighlightControllerParts : MonoBehaviour
 {
     [SerializeField]private Material highlightMaterial = null;
     private Dictionary<ControllerPart, Material> defaultMaterialOfParts = new Dictionary<ControllerPart, Material>();
-    private Dictionary<ControllerPart, string> nameOfParts = new Dictionary<ControllerPart, string>();
     private bool controllerMappingCompleted = false;
 
     public enum ControllerPart
@@ -24,7 +23,6 @@ public class HighlightControllerParts : MonoBehaviour
         ThumbStick,
         ThumbStickBase
     };
-
 
 
     private void Awake()
